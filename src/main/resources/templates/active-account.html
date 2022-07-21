@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<div>
+    Email 地址验证<br>
+    这封邮件是由<a href="http://localhost/hello" target="_blank">南航校园</a>发送的。<br>
+    您收到这封邮件，是由于在<a href="#" target="_blank">南航校园</a>进行了新用户注册。<br>
+    ---------------------------------------------------------<br>
+    账号激活说明<br>
+    您是<a href="http://localhost/hello" target="_blank">南航校园</a>的新用户，我们欢迎您的加入，您只需要点击下面的链接激活账号即可：<br>
+    <a th:href="@{${activationUrl}}"> <span th:text="${activationUrl}"></span> </a><br>
+    感谢您的访问，祝您生活愉快！<br>
+    ---------------------------------------------------------<br>
+    此致<br>
+    <a href="http://localhost/hello" target="_blank">南航校园</a>管理团队
+</div>
+</body>
+</html>
+

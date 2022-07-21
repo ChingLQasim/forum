@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.soft.forum.Utils.Res;
 import com.soft.forum.Utils.resCodeEnum;
 import com.soft.forum.entity.User;
+import com.soft.forum.service.MailService;
 import com.soft.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MailService mailService;
 
     @PostMapping("/login")
     //public Res login(@RequestParam String email, @RequestParam String password) {
@@ -58,10 +62,32 @@ public class UserController {
     Res saveProcess(User user){
         boolean saveFlag = userService.save(user);
         if (saveFlag){
-            return Res.ok(resCodeEnum.SUCCESS);
+            String confirmCode = String.valueOf(user.getUserMail().hashCode());
+            String activationUrl = "http://localhost/activation?confirmCode=" + confirmCode + "&email=" + user.getUserMail();
+            return mailService.sendMail(activationUrl, user.getUserMail());
         }else {
             return Res.error(resCodeEnum.UNKNOW_REASON);//服务器数据库异常
         }
     }
 
+    @GetMapping("/activation")
+    public Res activation(@RequestParam String email,@RequestParam String confirmCode){
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("user_mail", email).eq("user_state", 0);
+        User currentUser = userService.getOne(userQueryWrapper);
+        if (String.valueOf(email.hashCode()).equals(confirmCode)){
+            currentUser.setUserState(1);
+            if(userService.updateById(currentUser)) {
+                return Res.right();
+            }else {
+                return Res.error();
+            }
+        }
+        return Res.error();
+    }
+
+    @RequestMapping("hello")
+    public String getBasePage(){
+        return "hello";
+    }
 }

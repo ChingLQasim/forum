@@ -13,7 +13,8 @@ public enum resCodeEnum {
     PERMISSION(false, 205, "没有权限"),
     CODE_ERROR(false, 206, "验证码错误!"),
     TOKEN_ERROR(false, 207, "Token无效!"),
-    ACTIVATE_ERROR(false, 207, "已注册未激活");
+    ACTIVATE_ERROR(false, 207, "已注册未激活"),
+    EMAIL_ERROR(false, 208, "邮件服务器错误");
 
     private final Integer code;
     private final String message;
