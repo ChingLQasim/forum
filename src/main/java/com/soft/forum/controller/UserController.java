@@ -78,7 +78,7 @@ public class UserController {
         if (String.valueOf(email.hashCode()).equals(confirmCode)){
             currentUser.setUserState(1);
             if(userService.updateById(currentUser)) {
-                return Res.right();
+                return Res.ok();
             }else {
                 return Res.error();
             }

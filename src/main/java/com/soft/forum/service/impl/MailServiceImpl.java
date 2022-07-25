@@ -47,7 +47,7 @@ public class MailServiceImpl implements MailService {
             return Res.error(resCodeEnum.EMAIL_ERROR);
         }
         mailSender.send(mimeMessage);
-        return Res.right();
+        return Res.ok();
     }
 
 

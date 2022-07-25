@@ -3,6 +3,7 @@ package com.soft.forum.Utils;
 import lombok.Data;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 @Data
 public class Res {
@@ -26,7 +27,7 @@ public class Res {
     /*
     操作成功响应，无参数返回通用成功码
      */
-    public static Res right(){
+    public static Res ok(){
         Res r = new Res();
         r.setCode(resCodeEnum.SUCCESS.getCode());
         r.setSuccess(resCodeEnum.SUCCESS.getStatus());
@@ -65,6 +66,15 @@ public class Res {
     }
     public Res data(Map<String,Object> map){
         this.setData(map);
+        return this;
+    }
+    public <T> Res data(List<T> map){
+        Map<String, Object> tempMap = new HashMap<>();
+        int i = 0;
+        for (Object obj: map) {
+            tempMap.put(String.valueOf(i++), obj);
+        }
+        this.setData(tempMap);
         return this;
     }
 
